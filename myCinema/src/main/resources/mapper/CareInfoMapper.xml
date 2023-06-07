@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.CareInfoMapper">
+    <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.CareInfo">
+        <id column="name" jdbcType="VARCHAR" property="name" />
+        <result column="info" jdbcType="INTEGER" property="info" />
+    </resultMap>
+
+    <select id="getInfo" resultMap="BaseResultMap">
+        select name, info from care_info where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from care_info
+    </select>
+
+    <update id="setInfo" parameterType="org.lan.cinema.mapper.CareInfoMapper">
+        update care_info set info = #{info,jdbcType=VARCHAR}
+        where name = #{name,jdbcType=VARCHAR}
+    </update>
+
+
+</mapper>

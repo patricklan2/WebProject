@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.ConsumeRecordMapper">
+  <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.ConsumeRecord">
+    <result column="card_id" jdbcType="VARCHAR" property="cardId" />
+    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="reason" jdbcType="INTEGER" property="reason" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+  </resultMap>
+  <insert id="insert" parameterType="org.lan.cinema.pojo.ConsumeRecord">
+    insert into consume_record (card_id, value, time, reason, info)
+    values (#{cardId,jdbcType=VARCHAR}, #{value,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR},
+      #{reason,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select card_id, value, time, reason, info
+    from consume_record
+  </select>
+  <select id="selectConsumeCount" resultType="LONG">
+    select
+    sum(value)
+    from consume_record
+    where reason = 1
+  </select>
+  <select id="selectRechargeCount" resultType="LONG">
+    select
+    sum(value)
+    from consume_record
+    where reason = 2
+  </select>
+
+</mapper>

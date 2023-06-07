@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.Member">
+    <id column="member_id" jdbcType="VARCHAR" property="memberId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="integral" jdbcType="INTEGER" property="integral"/>
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+  </resultMap>
+
+  <insert id="register" parameterType="org.lan.cinema.pojo.Member">
+    insert into member (member_id, password, name, sex, birthday)
+    values (#{memberId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+            #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from member
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="org.lan.cinema.pojo.Member">
+    update member
+    set password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      integral = #{integral,jdbcType=VARCHAR}
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </update>
+  <update id="upgrade" parameterType="java.lang.String">
+    update member
+    set grade = grade + 1
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </update>
+  <update id="degrade" parameterType="java.lang.String">
+    update member
+    set grade = grade - 1
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </update>
+  <update id="getIntegral">
+    update member
+    set integral = integral + #{number,jdbcType=INTEGER}
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </update>
+  <update id="reduceIntegral">
+    update member
+    set integral = integral - #{number,jdbcType=INTEGER}
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </update>
+  <update id="setInfo">
+    update member
+    set info = #{info,jdbcType=VARCHAR}
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select member_id, password, name, sex, birthday, integral, grade
+    from member
+  </select>
+  <select id="getCount" resultType="LONG">
+    select count(*)
+    from member
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select member_id, password, name, sex, birthday, integral, grade
+    from member
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select member_id, password, name, sex, birthday, integral, grade
+    from member
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <select id="inquireMember" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select member_id, password, name, sex, birthday, integral, grade from member
+    <where>
+      <if test="name != null and name != ''">
+        and name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="birthdayQuery != null and birthdayQuery != ''">
+        and birthday &lt; #{birthdayQuery,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="getAllInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select member_id, password, name, sex, birthday, integral, grade, info
+    from member
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+</mapper>

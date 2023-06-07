@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.CardMapper">
+  <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.Card">
+    <id column="card_id" jdbcType="VARCHAR" property="cardId" />
+    <result column="member_id" jdbcType="VARCHAR" property="memberId" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
+    <result column="lose" jdbcType="INTEGER" property="lose" />
+    <result column="name" jdbcType="INTEGER" property="name" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+  </resultMap>
+  <insert id="register" parameterType="org.lan.cinema.pojo.Card">
+    insert into card (card_id, member_id, grade)
+    values (#{cardId,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from card
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="org.lan.cinema.pojo.Card">
+    update card
+    set balance = #{balance,jdbcType=INTEGER},
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+  <update id="handleCancel" parameterType="java.lang.String">
+    update card
+    set lose = 0
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+  <update id="handleLose" parameterType="java.lang.String">
+    update card
+    set lose = 1
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+  <update id="upgrade" parameterType="java.lang.String">
+    update card
+    set grade = grade + 1
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+  <update id="degrade" parameterType="java.lang.String">
+    update card
+    set grade = grade - 1
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+  <update id="recharge">
+    update card
+    set balance = balance + #{number,jdbcType=INTEGER}
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+  <update id="consume">
+    update card
+    set balance = balance - #{number,jdbcType=INTEGER}
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select card_id, member_id, balance, lose, grade
+    from card
+  </select>
+  <select id="getCount" resultType="LONG">
+    select count(*)
+    from card
+  </select>
+  <select id="selectAllWithName" resultMap="BaseResultMap">
+    select card_id, balance, lose, card.grade, name
+    from card join member
+                   on card.member_id = member.member_id
+  </select>
+  <select id="selectByPrimaryKey"  resultMap="BaseResultMap">
+    select card_id, member_id, balance, lose, grade
+    from card
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMemberId" resultMap="BaseResultMap">
+    select card_id, member_id, balance, lose, grade
+    from card
+    where member_id = #{memberId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select card_id, balance, lose, name, card.grade
+    from card join member on card.member_id = member.member_id
+    <where>
+      <if test="memberId != null and memberId != ''">
+        or card.member_id = #{memberId,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name != ''">
+        or name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="cardId != null and cardId != ''">
+        or card_id = #{cardId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

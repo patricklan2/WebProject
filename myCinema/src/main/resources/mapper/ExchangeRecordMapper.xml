@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.ExchangeRecordMapper">
+  <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.ExchangeRecord">
+    <result column="member_id" jdbcType="VARCHAR" property="memberId" />
+    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="reason" jdbcType="INTEGER" property="reason" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+  </resultMap>
+  <insert id="insert" parameterType="org.lan.cinema.pojo.ExchangeRecord">
+    insert into exchange_record (member_id, value, time,
+      reason, info)
+    values (#{memberId,jdbcType=VARCHAR}, #{value,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR},
+      #{reason,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select member_id, value, time, reason, info
+    from exchange_record
+  </select>
+<!--  Long ;-->
+  <select id="selectExchangeCount" resultType="LONG">
+    select
+    sum(value)
+    from exchange_record
+    where reason = 1
+  </select>
+</mapper>

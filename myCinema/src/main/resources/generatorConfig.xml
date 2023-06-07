@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="MysqlTables" targetRuntime="MyBatis3Simple">
+       <plugin type = "org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc链接信息 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/cinema?useUnicode=true;characterEncoding=UTF-8;"
+                        userId="root" password="root">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成POJO类的位置 -->
+        <javaModelGenerator targetPackage="org.lan.cinema.pojo"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- mapper映射文件生成的位置 .xml文件 -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- mapper接口生成的位置 .interface-->
+        <javaClientGenerator type="xmlMapper"
+                             targetPackage="org.lan.cinema.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 指定要生成的表 -->
+        <!--
+        <table tableName="rule_result" >
+            <property name="useActualColumnNames" value="true"/>-->
+            <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--</table>-->
+
+<!--        <table tableName="card" domainObjectName="Card"/>-->
+<!--        <table tableName="consume_record" domainObjectName="ConsumeRecord"/>-->
+<!--        <table tableName="exchange_record" domainObjectName="ExchangeRecord"/>-->
+<!--        <table tableName="good" domainObjectName="Good"/>-->
+<!--        <table tableName="manager" domainObjectName="Manager"/>-->
+<!--        <table tableName="member" domainObjectName="Member"/>-->
+<!--        <table tableName="movie" domainObjectName="Movie"/>-->
+        <table tableName="care_info" domainObjectName="CareInfo"/>
+    </context>
+</generatorConfiguration>
+
+
+
+<!--<context id="MysqlTables" targetRuntime="MyBatis3Simple">-->

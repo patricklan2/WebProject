@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.ManagerMapper">
+  <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.Manager">
+    <id column="manager_id" jdbcType="VARCHAR" property="managerId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from manager
+    where manager_id = #{managerId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.lan.cinema.pojo.Manager">
+    insert into manager (manager_id, password, name, 
+      role, time)
+    values (#{managerId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{role,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.lan.cinema.pojo.Manager">
+    update manager
+    set password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR}
+    where manager_id = #{managerId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select manager_id, password, name, role, time
+    from manager
+    where manager_id = #{managerId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select manager_id, password, name, role, time
+    from manager
+  </select>
+</mapper>

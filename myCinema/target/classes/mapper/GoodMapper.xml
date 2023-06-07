@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.GoodMapper">
+  <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.Good">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+  </resultMap>
+
+  <insert id="insert" parameterType="org.lan.cinema.pojo.Good">
+    insert into good (name, integral, stock)
+    values (#{name,jdbcType=VARCHAR}, #{integral,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER})
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from good
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="org.lan.cinema.pojo.Good">
+    update good
+    set integral = #{integral,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="supply">
+    update good
+    set stock = stock + #{number,jdbcType=INTEGER}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="reduce">
+    update good
+    set stock = stock - #{number,jdbcType=INTEGER}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select name, integral, stock
+    from good
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select name, integral, stock
+    from good
+  </select>
+
+</mapper>

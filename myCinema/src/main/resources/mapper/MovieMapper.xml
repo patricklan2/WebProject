@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lan.cinema.mapper.MovieMapper">
+  <resultMap id="BaseResultMap" type="org.lan.cinema.pojo.Movie">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+  </resultMap>
+
+  <insert id="insert" parameterType="org.lan.cinema.pojo.Movie">
+    insert into movie (name, price, integral, time)
+    values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{integral,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from movie
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="org.lan.cinema.pojo.Movie">
+    update movie
+    set price = #{price,jdbcType=INTEGER},
+      integral = #{integral,jdbcType=INTEGER},
+      time = #{time,jdbcType=VARCHAR}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select name, price, integral, time
+    from movie
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select name, price, integral, time
+    from movie
+  </select>
+  <select id="getCount" resultType="LONG">
+    select count(*)
+    from movie
+  </select>
+
+</mapper>
